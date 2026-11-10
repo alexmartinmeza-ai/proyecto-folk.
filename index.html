@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0806">
+<meta property="og:title" content="Proyecto Folk · Programa del show">
+<meta property="og:description" content="Show anual 15.11 · Centro Cultural Cotesma">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Programa Proyecto Folk</title>
+</head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: tríptico de puerta para celular. El afiche se parte en dos solapas que se abren
+   y revelan tres paneles que se deslizan: Bienvenida · Programa · Final. */
+:root{
+  --noche:#0c0806;       /* fondo del afiche */
+  --brasa:#171009;       /* superficie */
+  --veta:#3b2517;        /* líneas */
+  --cobre:#e2732f;       /* naranja del logo */
+  --cobre-hondo:#a9481b;
+  --crema:#f4e7d4;       /* trazo claro del mapa */
+  --ceniza:#a8917c;      /* texto secundario */
+  --serif:"Cormorant Garamond","Cormorant",Garamond,"Times New Roman",serif;
+  --sans:"Jost","Futura","Avenir Next",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:#050302;color:var(--crema);font-family:var(--sans);font-size:16px;overflow:hidden;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:disabled{opacity:.35;cursor:default}
+:focus-visible{outline:1.5px solid var(--cobre);outline-offset:3px;border-radius:4px}
+
+/* columna con forma de teléfono; en pantallas grandes queda centrada */
+.app{position:relative;height:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;background:var(--noche);overflow:hidden;perspective:1400px}
+/* haz de luz diagonal, como en el afiche */
+.app::before{content:"";position:absolute;inset:-20% -60%;pointer-events:none;z-index:0;
+  background:linear-gradient(115deg,transparent 30%,rgba(226,115,47,.10) 38%,rgba(226,115,47,.03) 46%,transparent 52%,transparent 60%,rgba(226,115,47,.07) 66%,transparent 74%);
+  animation:beam 14s ease-in-out infinite alternate}
+@keyframes beam{to{transform:translateX(12%)}}
+
+.track{position:relative;z-index:1;flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.track::-webkit-scrollbar{display:none}
+.panel{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;overflow-y:auto;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));padding-block:26px 40px}
+.inner{display:flex;flex-direction:column;gap:22px}
+
+/* tipografía tomada del afiche */
+.spaced{font-family:var(--serif);font-weight:600;text-transform:uppercase;letter-spacing:.32em;font-size:13px;color:var(--crema);text-align:center;line-height:1.7}
+.eyebrow{font-family:var(--serif);font-weight:600;text-transform:uppercase;letter-spacing:.3em;font-size:12.5px;color:var(--cobre)}
+h2{margin:0;font-family:var(--serif);font-weight:600;font-size:44px;line-height:1;letter-spacing:.02em;text-wrap:balance}
+p{margin:0;line-height:1.6;color:var(--ceniza);font-size:15.5px}
+p strong{color:var(--crema);font-weight:500}
+.rule{display:flex;align-items:center;gap:10px;color:var(--cobre);font-size:14px}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--cobre-hondo))}
+.rule::after{background:linear-gradient(90deg,var(--cobre-hondo),transparent)}
+
+/* PANEL 1 */
+.hero{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.logo{width:min(72%,300px);aspect-ratio:496/776;max-width:100%;background:url(logo.jpg) center/contain no-repeat;
+  -webkit-mask-image:radial-gradient(ellipse 58% 56% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 58% 56% at 50% 50%,#000 62%,transparent 100%)}
+.date{font-family:var(--serif);font-weight:500;font-size:52px;letter-spacing:.28em;line-height:1;margin-right:-.28em;font-variant-numeric:lining-nums}
+.date span{color:var(--cobre)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--veta)}
+.facts div{padding:14px 4px;text-align:center}
+.facts div + div{border-left:1px solid var(--veta)}
+.facts b{display:block;font-family:var(--serif);font-weight:600;font-size:36px;line-height:1;color:var(--cobre)}
+.facts small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ceniza)}
+.finder h3{margin:0 0 6px;font-family:var(--serif);font-weight:600;font-size:28px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{padding:10px 15px;border-radius:999px;border:1px solid var(--veta);font-size:14px;font-weight:500;color:var(--crema);transition:background .25s,border-color .25s,color .25s}
+.chip[aria-pressed="true"]{background:var(--cobre);border-color:var(--cobre);color:var(--noche)}
+.cta{display:flex;justify-content:center;align-items:center;gap:10px;width:100%;padding:16px;border:1px solid var(--cobre);color:var(--crema);
+  font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:.3em;text-transform:uppercase;border-radius:2px;background:linear-gradient(180deg,rgba(226,115,47,.14),rgba(226,115,47,.02))}
+.venue{display:flex;flex-direction:column;align-items:center;gap:4px}
+.venue small{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ceniza)}
+.venue b{font-weight:500;font-size:16px}
+
+/* PANEL 2 */
+.now{position:sticky;top:-26px;z-index:3;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;
+  padding:12px 12px 12px 14px;background:rgba(23,16,9,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--veta);border-radius:4px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cobre);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(226,115,47,.7)}70%{box-shadow:0 0 0 10px rgba(226,115,47,0)}100%{box-shadow:0 0 0 0 rgba(226,115,47,0)}}
+.now .what{min-width:0;line-height:1.3}
+.now .lbl{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ceniza)}
+.now #nowText{font-weight:500;font-size:15px;overflow-wrap:anywhere}
+.now #nowText em{font-style:normal;color:var(--cobre);font-family:var(--serif);font-weight:700;font-size:18px}
+.stepper{display:flex;gap:6px}
+.stepper button{width:44px;height:44px;border-radius:50%;border:1px solid var(--veta);font-size:22px;line-height:1;color:var(--crema)}
+.stepper button#next{border-color:var(--cobre);color:var(--cobre)}
+.hint{font-size:13.5px}
+
+ol.show{list-style:none;margin:0;padding:0}
+.item{display:grid;grid-template-columns:46px 1fr 44px;align-items:center;gap:10px;padding:15px 0;border-bottom:1px solid var(--veta);transition:opacity .35s}
+.item .n{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1;color:var(--cobre);text-align:right;font-variant-numeric:lining-nums}
+.item .t{min-width:0}
+.item .title{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.1}
+.item .who{font-size:13.5px;color:var(--ceniza);margin-top:4px;letter-spacing:.02em}
+.fav{width:44px;height:44px;display:grid;place-items:center}
+.fav svg{width:22px;height:22px;fill:none;stroke:var(--ceniza);stroke-width:1.4;transition:transform .25s,fill .25s,stroke .25s}
+.fav svg{width:26px;height:26px}
+.fav[aria-pressed="true"] svg{fill:var(--cobre);stroke:var(--cobre);animation:pop .35s ease-out}
+@keyframes pop{40%{transform:scale(1.35)}100%{transform:scale(1)}}
+.item.done{opacity:.32}
+.item.current{background:linear-gradient(90deg,rgba(226,115,47,.18),transparent 85%)}
+.item.current .title{color:var(--cobre)}
+.item.dim{opacity:.22}
+.item.match .n::after{content:" ✦";font-size:14px;vertical-align:super}
+.item.final .title{letter-spacing:.14em;text-transform:uppercase;font-size:20px}
+
+/* PANEL 3 */
+.favlist{display:flex;flex-direction:column}
+.favrow{display:grid;grid-template-columns:40px 1fr;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--veta)}
+.favrow b{grid-row:span 2;font-family:var(--serif);font-weight:600;font-size:32px;line-height:1;color:var(--cobre);text-align:right}
+.favrow span{font-family:var(--serif);font-weight:700;font-size:20px;line-height:1.15;min-width:0}
+.favrow small{font-size:13px;color:var(--ceniza)}
+.favrow small.soon{color:var(--cobre);font-weight:600}
+.empty{padding:18px;border:1px dashed var(--veta);border-radius:4px;color:var(--ceniza);font-size:14.5px;line-height:1.6}
+.empty strong{color:var(--crema);font-weight:500}
+.sun{width:120px;height:60px;margin:6px auto 0;display:block}
+.closing{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.closing h2{font-size:40px}
+.join{display:flex;flex-direction:column;gap:14px;margin-top:10px;padding:24px 18px;border:1px solid var(--veta);border-radius:6px;background:linear-gradient(160deg,rgba(226,115,47,.12),rgba(226,115,47,0) 60%)}
+.join h2{font-size:34px}
+.social{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:999px;text-decoration:none;color:var(--crema);border:1px solid var(--cobre)}
+.social.ig{background:var(--cobre);color:#1a0d05;border-color:var(--cobre)}
+.social svg{flex:none;width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8}
+.social svg .fill{fill:currentColor;stroke:none}
+.social span{display:flex;flex-direction:column;min-width:0}
+.social b{font-weight:600;font-size:17px}
+.social small{font-size:13.5px;opacity:.8;overflow-wrap:anywhere}
+.note{font-size:13px;text-align:center;color:var(--ceniza);font-style:italic;font-family:var(--serif);font-size:16px}
+
+/* navegación */
+nav.tabs{position:relative;z-index:2;flex:none;display:grid;grid-template-columns:repeat(3,1fr);background:var(--brasa);border-top:1px solid var(--veta);
+  padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
+nav.tabs button{position:relative;padding:14px 4px 16px;font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--ceniza)}
+nav.tabs button[aria-current="true"]{color:var(--crema)}
+nav.tabs button[aria-current="true"]::before{content:"✦";position:absolute;top:-9px;left:50%;transform:translateX(-50%);color:var(--cobre);font-size:14px;background:var(--brasa);padding:0 6px}
+
+/* solapas: el afiche partido en dos */
+.doors{position:absolute;inset:0;z-index:20;display:flex;transform-style:preserve-3d}
+.door{position:relative;flex:1;overflow:hidden;transition:transform 1.25s cubic-bezier(.6,.02,.22,1),filter 1.25s;backface-visibility:hidden}
+.door .img{position:absolute;top:0;bottom:0;width:200%;background:#0c0806 url(poster.jpg) center/cover no-repeat}
+.door.l{transform-origin:left center}
+.door.l .img{left:0}
+.door.r{transform-origin:right center}
+.door.r .img{right:0}
+.door.l::after{content:"";position:absolute;top:0;bottom:0;right:0;width:1px;background:rgba(244,231,212,.12)}
+.seal{position:absolute;z-index:21;left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:10px;transition:opacity .4s;
+  padding-inline:20px}
+.seal button{width:100%;max-width:340px;padding:20px 20px;border:0;background:var(--cobre);color:#1a0d05;
+  font-family:var(--sans);font-weight:600;font-size:19px;line-height:1.2;letter-spacing:.01em;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:10px;
+  animation:glow 1.6s ease-out infinite}
+.seal button:active{transform:scale(.97)}
+@keyframes glow{0%{box-shadow:0 0 0 0 rgba(226,115,47,.75)}80%,100%{box-shadow:0 0 0 18px rgba(226,115,47,0)}}
+.tap{display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--crema);text-shadow:0 2px 8px #000}
+.hand{display:inline-block;font-size:26px;animation:bob 1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.doors{cursor:pointer}
+.seal small{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ceniza)}
+.app.open .door.l{transform:rotateY(-100deg);filter:brightness(.3)}
+.app.open .door.r{transform:rotateY(100deg);filter:brightness(.3)}
+.app.open .seal{opacity:0;pointer-events:none}
+.app.gone .doors,.app.gone .seal{display:none}
+.reclose{align-self:center;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ceniza);padding:10px;text-decoration:underline;text-underline-offset:4px}
+
+@media (prefers-reduced-motion:reduce){
+  .app::before,.dot,.seal button,.hand{animation:none}
+  .door{transition:opacity .4s}
+  .app.open .door.l,.app.open .door.r{transform:none;opacity:0}
+}
+</style>
+
+<div class="app" id="app">
+
+  <div class="track" id="track">
+    <!-- PANEL 1 -->
+    <section class="panel" aria-label="Bienvenida">
+      <div class="inner">
+        <div class="hero">
+          <div class="logo" role="img" aria-label="Logo Proyecto Folk: mapa de Argentina con golondrinas y un sol"></div>
+          <div class="date">15<span>.</span>11</div>
+          <div class="rule" style="width:70%">✦</div>
+          <div class="spaced">Show anual</div>
+        </div>
+        <button class="cta" type="button" data-go="1">Ver programa ✦</button>
+        <div class="venue"><small>Te esperamos en</small><b>Centro Cultural Cotesma</b></div>
+        <button class="reclose" id="reclose" type="button">Volver al afiche</button>
+      </div>
+    </section>
+
+    <!-- PANEL 2 -->
+    <section class="panel" aria-label="Programa">
+      <div class="inner">
+        <div>
+          <div class="eyebrow">Orden del show</div>
+          <h2>Programa</h2>
+        </div>
+        <div class="finder">
+          <h3>¿A quién venís a ver?</h3>
+          <p>Tocá su grupo y te mostramos cuándo baila.</p>
+          <div class="chips" id="chips"></div>
+        </div>
+        <p class="hint">Tocá el <strong style="color:var(--cobre)">♥</strong> en los números que más te gustan.</p>
+        <ol class="show" id="list"></ol>
+        <button class="cta" type="button" data-go="2">¿Querés saber más sobre nosotros? ✦</button>
+      </div>
+    </section>
+
+    <!-- PANEL 3 -->
+    <section class="panel" aria-label="Final">
+      <div class="inner">
+        <div>
+          <h2>Tus favoritos</h2>
+        </div>
+        <div class="favlist" id="favs"></div>
+        <div class="closing">
+          <svg class="sun" viewBox="0 0 120 60" aria-hidden="true">
+            <g stroke="#e2732f" stroke-width="1" fill="none">
+              <path d="M30 60a30 30 0 0 1 60 0"/>
+              <g id="rays"></g>
+            </g>
+          </svg>
+          <h2>Saludo final</h2>
+          <p>¡Quedate hasta el final!</p>
+          <div class="rule" style="width:60%">✦</div>
+          <div class="spaced">Gracias por<br>acompañarnos</div>
+          <p class="note">El orden puede cambiar.</p>
+        </div>
+        <div class="join">
+          <div class="eyebrow">Tu mensajito</div>
+          <h2>¿Te gustó el show?</h2>
+          <p>Dejanos tu mensajito o reseña por WhatsApp. ¡Nos encanta leerlos!</p>
+          <a class="social ig" id="reviewLink" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-3.9A8.5 8.5 0 1 1 8 19z"/><path d="M9 8.5c0 3.3 3.2 6.5 6.5 6.5l1-1.6-2-1-1 .8c-1.2-.5-2.2-1.5-2.7-2.7l.8-1-1-2z" class="fill"/></svg>
+            <span><b>Dejanos tu mensajito</b><small>Se abre WhatsApp</small></span>
+          </a>
+        </div>
+        <div class="join">
+          <div class="eyebrow">Proyecto Folk</div>
+          <h2>¿Te gustaría bailar con nosotros?</h2>
+          <p>Seguinos en Instagram y enterate cuando abrimos las inscripciones el año que viene.</p>
+          <a class="social ig" id="igLink" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" class="fill"/></svg>
+            <span><b>Seguinos en Instagram</b><small id="igText"></small></span>
+          </a>
+          <a class="social wa" id="waLink" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-3.9A8.5 8.5 0 1 1 8 19z"/><path d="M9 8.5c0 3.3 3.2 6.5 6.5 6.5l1-1.6-2-1-1 .8c-1.2-.5-2.2-1.5-2.7-2.7l.8-1-1-2z" class="fill"/></svg>
+            <span><b>Escribinos por WhatsApp</b><small id="waText"></small></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="tabs" aria-label="Paneles del tríptico">
+    <button type="button" data-go="0" aria-current="true">Inicio</button>
+    <button type="button" data-go="1">Programa</button>
+    <button type="button" data-go="2">Final</button>
+  </nav>
+
+  <!-- Tapa -->
+  <div class="doors" aria-hidden="true">
+    <div class="door l"><div class="img"></div></div>
+    <div class="door r"><div class="img"></div></div>
+  </div>
+  <div class="seal">
+    <button type="button" id="open"><span class="hand" aria-hidden="true">👆</span> Tocá acá para ver el programa</button>
+  </div>
+</div>
+
+<script>
+const SHOW = [
+  {n:1,  title:"Lucía",                who:"Tema de Milo J",     group:null},
+  {n:2,  title:"Malambo",              who:"Niños y adultos",     group:"Malambo"},
+  {n:3,  title:"Eco de tu adiós",      who:"Folktempo Sábados",   group:"Folktempo Sábados"},
+  {n:4,  title:"Ecuador",              who:"Folk Inicio",         group:"Folk Inicio"},
+  {n:5,  title:"Zamba",                who:"Proyecto Folk",       group:"Proyecto Folk"},
+  {n:6,  title:"Cactus",               who:"Folktempo Jueves",    group:"Folktempo Jueves"},
+  {n:7,  title:"Escondido",            who:"Proyecto Folk",       group:"Proyecto Folk"},
+  {n:8,  title:"Malambo individual",   who:"Belu",                group:"Malambo"},
+  {n:9,  title:"Jota cordobesa",       who:"Folk Inicio",         group:"Folk Inicio"},
+  {n:10, title:"Cazzu",                who:"Folktempo Sábados",   group:"Folktempo Sábados"},
+  {n:11, title:"Malambo individual",   who:"Franco",              group:"Malambo"},
+  {n:12, title:"Viva Jujuy",           who:"Folktempo Sábados",   group:"Folktempo Sábados"},
+  {n:13, title:"Combinado de malambo", who:"Malambo Avanzado",    group:"Malambo"},
+  {n:14, title:"Saludo final",         who:"Todo el elenco",      group:"*", final:true},
+];
+const GROUPS = ["Folk Inicio","Folktempo Jueves","Folktempo Sábados","Proyecto Folk","Malambo"];
+/* Datos de contacto: completar */
+const INSTAGRAM = "proyectofolk.sma";        // usuario, sin @
+const WHATSAPP  = "5492972537375";       // código de país + área + número, sin espacios ni +
+const WA_REVIEW = "¡Hola! Estuve en su show y lo que más me gustó fue... ";
+const WA_MSG    = "¡Hola! Vi el show de Proyecto Folk y quiero info sobre las clases.";
+
+const store = {
+  get(k,d){try{const v=localStorage.getItem("pf26:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("pf26:"+k,JSON.stringify(v))}catch(e){}}
+};
+let favs = new Set(store.get("favs",[]));
+let current = 0;
+let filter = store.get("filter",null);
+
+const $ = s=>document.querySelector(s);
+const star = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.6-4.7-9.4-9.6C1.3 7.4 3.7 3.8 7.3 3.8c2 0 3.6 1.1 4.7 2.7 1.1-1.6 2.7-2.7 4.7-2.7 3.6 0 6 3.6 4.7 7.1-1.8 4.9-9.4 9.6-9.4 9.6z"/></svg>';
+
+/* rayos del sol del logo */
+(function(){let g="";for(let i=0;i<=18;i++){const a=Math.PI*(i/18);const c=Math.cos(a),s=Math.sin(a);const r2=i%2?52:58;
+  g+=`<line x1="${(60-c*34).toFixed(1)}" y1="${(60-s*34).toFixed(1)}" x2="${(60-c*r2).toFixed(1)}" y2="${(60-s*r2).toFixed(1)}"/>`;}
+  document.getElementById("rays").innerHTML=g;})();
+
+$("#igLink").href = "https://instagram.com/"+INSTAGRAM; $("#igText").textContent = "@"+INSTAGRAM;
+$("#waLink").href = "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(WA_MSG);
+$("#waText").textContent = "+54 9 2972 53-7375";
+$("#reviewLink").href = "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(WA_REVIEW);
+function renderChips(){
+  $("#chips").innerHTML = `<button type="button" class="chip" aria-pressed="${!filter}" data-g="">Todos</button>` + GROUPS.map(g=>`<button type="button" class="chip" aria-pressed="${filter===g}" data-g="${g}">${g}</button>`).join("");
+}
+function renderList(){
+  $("#list").innerHTML = SHOW.map(s=>{
+    const c=["item"];
+    if(s.final) c.push("final");
+    if(current && s.n<current) c.push("done");
+    if(s.n===current) c.push("current");
+    if(filter) c.push(s.group===filter||s.group==="*" ? "match" : "dim");
+    return `<li class="${c.join(" ")}" id="n${s.n}">
+      <span class="n">${s.n}</span>
+      <div class="t"><div class="title">${s.title}</div><div class="who">${s.who}</div></div>
+      ${s.final?'<span></span>':`<button type="button" class="fav" data-fav="${s.n}" aria-pressed="${favs.has(s.n)}" aria-label="Marcar ${s.title}, ${s.who}">${star}</button>`}
+    </li>`;
+  }).join("");
+}
+function renderFavs(){
+  const list = SHOW.filter(s=>favs.has(s.n));
+  if(!list.length){
+    $("#favs").innerHTML = `<div class="empty">Todavía no marcaste ninguno. Tocá el <strong style="color:var(--cobre)">♥</strong> en el Programa.</div>`;
+    return;
+  }
+  $("#favs").innerHTML = list.map(s=>{
+    return `<div class="favrow"><b>${s.n}</b><span>${s.title}</span><small>${s.who}</small></div>`;
+  }).join("");
+}
+renderChips();renderList();renderFavs();
+
+const track=$("#track"), panels=[...document.querySelectorAll(".panel")], tabs=[...document.querySelectorAll("nav.tabs button")];
+function go(i){ track.scrollTo({left:panels[i].offsetLeft,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); }
+track.addEventListener("scroll",()=>{
+  const i=Math.round(track.scrollLeft/track.clientWidth);
+  tabs.forEach((t,k)=>t.setAttribute("aria-current",k===i));
+},{passive:true});
+
+document.addEventListener("click",e=>{
+  const chip=e.target.closest("[data-g]");
+  if(chip){
+    filter = chip.dataset.g||null; store.set("filter",filter); renderChips(); renderList();
+    if(filter){ const first=SHOW.find(s=>s.group===filter);
+      setTimeout(()=>document.getElementById("n"+first.n)?.scrollIntoView({block:"center",behavior:"smooth"}),150); }
+    return;
+  }
+  const f=e.target.closest("[data-fav]");
+  if(f){ const n=+f.dataset.fav; favs.has(n)?favs.delete(n):favs.add(n); store.set("favs",[...favs]); f.setAttribute("aria-pressed",favs.has(n)); renderFavs(); return; }
+  const g=e.target.closest("[data-go]");
+  if(g) go(+g.dataset.go);
+});
+
+const app=$("#app");
+const openDoors=()=>{ if(app.classList.contains("open")) return; track.style.scrollBehavior="auto"; track.scrollLeft=panels[1].offsetLeft; track.style.scrollBehavior=""; app.classList.add("open"); setTimeout(()=>app.classList.add("gone"),1300); };
+$("#open").onclick=openDoors;
+$(".doors").onclick=openDoors;
+$("#reclose").onclick=()=>{ app.classList.remove("gone"); requestAnimationFrame(()=>requestAnimationFrame(()=>app.classList.remove("open"))); };
+if(location.hash==="#programa"){ app.classList.add("open","gone"); requestAnimationFrame(()=>go(1)); }
+</script>
+
+</body>
+</html>
