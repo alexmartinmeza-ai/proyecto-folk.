@@ -108,6 +108,21 @@ ol.show{list-style:none;margin:0;padding:0}
 .item .n{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1;color:var(--cobre);text-align:right;font-variant-numeric:lining-nums;position:relative}
 .item .n i{position:absolute;right:-9px;top:-7px;font-style:normal;font-size:11px;opacity:0;transform:scale(0) rotate(-90deg);transition:opacity .4s var(--out),transform .6s var(--spring);transition-delay:inherit}
 .item .t{min-width:0}
+.tbtn{display:block;text-align:left;padding:0;width:100%;transition:transform .45s var(--spring)}
+.tbtn:active{transform:scale(.97);transition-duration:.1s}
+.tbtn .title,.tbtn .who{display:block}
+.mas{display:inline-flex;align-items:center;gap:3px;margin-left:6px;color:var(--cobre);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+.mas svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .5s var(--spring)}
+.item.expanded .mas svg{transform:rotate(180deg)}
+.more{grid-column:2/-1;display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--out)}
+.item.expanded .more{grid-template-rows:1fr}
+.more-in{min-height:0;overflow:hidden}
+.more-box{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding:12px 14px;border-left:2px solid var(--cobre);background:linear-gradient(90deg,rgba(226,115,47,.10),transparent);
+  opacity:0;transform:translateY(-8px);transition:opacity .45s var(--out),transform .6s var(--out)}
+.item.expanded .more-box{opacity:1;transform:none;transition-delay:.12s}
+.more-box b{font-weight:600;font-size:14px;letter-spacing:.04em;color:var(--crema)}
+.more-box em{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--cobre);line-height:1.2}
+.more-box p{font-size:14px;line-height:1.5}
 .item .title{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.1}
 .item .who{font-size:13.5px;color:var(--ceniza);margin-top:4px;letter-spacing:.02em}
 .item.dim{opacity:.22;transform:scale(.97)}
@@ -315,7 +330,8 @@ const SHOW = [
   {n:2,  title:"Malambo",              who:"Niños y adultos",     group:"Malambo"},
   {n:3,  title:"Eco de tu adiós",      who:"Folktempo Sábados",   group:"Folktempo Sábados"},
   {n:4,  title:"Ecuador",              who:"Folk Inicio",         group:"Folk Inicio"},
-  {n:5,  title:"Zamba",                who:"Proyecto Folk",       group:"Proyecto Folk"},
+  {n:5,  title:"Zamba",                who:"Proyecto Folk",       group:"Proyecto Folk",
+   info:`<b>Compañía de danza Proyecto Folk</b><em>«Zamba para mi triste»</em><p>La música es una grabación única hecha por el músico <strong>Franco Coria</strong> para la escuela Proyecto Folk.</p>`},
   {n:6,  title:"Cactus",               who:"Folktempo Jueves",    group:"Folktempo Jueves"},
   {n:7,  title:"Escondido",            who:"Proyecto Folk",       group:"Proyecto Folk"},
   {n:8,  title:"Malambo individual",   who:"Belu",                group:"Malambo"},
@@ -357,8 +373,11 @@ $("#reviewLink").href = "https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(WA
 $("#chips").innerHTML = [["","Todos"],...GROUPS.map(g=>[g,g])].map(([v,l])=>`<button type="button" class="chip press" data-g="${v}">${l}</button>`).join("");
 $("#list").innerHTML = SHOW.map((s,i)=>`<li class="item${s.final?" final":""}" id="n${s.n}" style="--i:${i}">
   <span class="n">${s.n}<i aria-hidden="true">✦</i></span>
-  <div class="t"><div class="title">${s.title}</div><div class="who">${s.who}</div></div>
+  ${s.info
+    ? `<button type="button" class="t tbtn" data-more="${s.n}" aria-expanded="false" aria-controls="m${s.n}"><span class="title">${s.title}</span><span class="who">${s.who} <span class="mas">más info <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></span></span></button>`
+    : `<div class="t"><div class="title">${s.title}</div><div class="who">${s.who}</div></div>`}
   ${s.final?'<span></span>':`<button type="button" class="fav" data-fav="${s.n}" aria-pressed="${favs.has(s.n)}" aria-label="Me gusta: ${s.title}, ${s.who}">${heart}</button>`}
+  ${s.info?`<div class="more" id="m${s.n}"><div class="more-in"><div class="more-box">${s.info}</div></div></div>`:""}
 </li>`).join("");
 const items=[...document.querySelectorAll(".item")], chips=[...document.querySelectorAll(".chip")];
 function applyFilter(){
@@ -423,6 +442,12 @@ document.addEventListener("click",e=>{
       setTimeout(()=>document.getElementById("n"+first.n)?.scrollIntoView({block:"center",behavior:reduce?"auto":"smooth"}),260); }
     return;
   }
+  const m=e.target.closest("[data-more]");
+  if(m){ const li=m.closest(".item"); const on=!li.classList.contains("expanded");
+    li.classList.toggle("expanded",on); m.setAttribute("aria-expanded",on);
+    if(on) setTimeout(()=>{const r=li.getBoundingClientRect(), pr=li.closest(".panel").getBoundingClientRect();
+      if(r.bottom>pr.bottom-70) li.scrollIntoView({block:"nearest",behavior:reduce?"auto":"smooth"});},620);
+    return; }
   const f=e.target.closest("[data-fav]");
   if(f){ const n=+f.dataset.fav; const on=!favs.has(n); on?favs.add(n):favs.delete(n);
     store.set("favs",[...favs]); f.setAttribute("aria-pressed",on); if(on) burst(f); renderFavs(); return; }
