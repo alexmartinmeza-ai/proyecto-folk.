@@ -167,6 +167,8 @@ ol.show{list-style:none;margin:0;padding:0}
 .wa b{font-weight:600;font-size:16.5px}
 .wa small{font-size:12.5px;opacity:.75}
 .wa.ghost{background:transparent;color:var(--plata);border:1px solid var(--champagne-hondo);animation:none}
+.dflogo{display:block;width:88px;height:88px;border-radius:50%;margin-bottom:8px;box-shadow:0 0 0 1px var(--champagne-hondo),0 0 0 5px rgba(220,199,162,.08),0 12px 30px rgba(0,0,0,.6)}
+.dflogo.sm{width:72px;height:72px;margin:10px 0 0}
 .iglink{display:inline-flex;align-items:center;gap:8px;color:var(--champagne);text-decoration:none;font-size:14px;letter-spacing:.06em;padding:8px 4px}
 .iglink svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}.iglink svg .fill{fill:currentColor;stroke:none}
 .sheet{position:absolute;inset:0;z-index:40;background:rgba(5,5,6,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;animation:fadeIn .35s var(--out)}
@@ -258,7 +260,8 @@ nav.tabs{position:relative;z-index:2;flex:none;background:var(--grafito);border-
       <div class="inner">
         <div class="hero">
           <div id="sparks" aria-hidden="true"></div>
-          <div class="label">Dance Factory presenta</div>
+          <img class="dflogo" src="logo-df.png" alt="Dance Factory">
+          <div class="label">presenta</div>
           <div class="big metal">DIVAS</div>
           <div class="del">del Pop</div>
           <div class="datebox">Sábado 28 de noviembre</div>
@@ -325,6 +328,7 @@ nav.tabs{position:relative;z-index:2;flex:none;background:var(--grafito);border-
           <p>Todos los grupos juntos sobre la pasarela.</p>
           <div class="rule" style="width:60%">✦</div>
           <div class="label" style="color:var(--plata)">Gracias por acompañarnos</div>
+          <img class="dflogo sm" src="logo-df.png" alt="Dance Factory">
           <a class="iglink press" href="https://instagram.com/dance.factorysma" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" class="fill"/></svg><span>@dance.factorysma</span></a>
           <p style="font-family:var(--display);font-style:italic;font-size:16px">El orden puede cambiar.</p>
         </div>
@@ -538,7 +542,7 @@ async function makeCard(){
   g.fillStyle="#dcc7a2";g.font='500 30px Montserrat';spaced(g,"MIS COREOS FAVORITAS",W/2,y,9);
   y+=34; star(g,W/2,y,12);
   const n=Math.max(1,list.length), cols=n>6?2:1, rows=Math.ceil(n/cols);
-  const avail=1640-y-40, rowH=Math.min(92,Math.floor(avail/rows)), ts=Math.min(cols>1?44:56,Math.round(rowH*.6));
+  const avail=1590-y-20, rowH=Math.min(92,Math.floor(avail/rows)), ts=Math.min(cols>1?44:56,Math.round(rowH*.6));
   y+=Math.max(30,rowH*.55);
   const colW=cols>1?470:760, x0=cols>1?70:160;
   list.forEach((s,i)=>{
@@ -548,8 +552,12 @@ async function makeCard(){
     g.fillStyle="#948e88";g.font=`500 ${Math.max(16,Math.round(ts*.42))}px Montserrat`;g.fillText(s.who.toUpperCase(),cx+numW+24,yy+Math.round(ts*.62));
   });
   g.textAlign="center";
-  const by=1700;
-  g.strokeStyle="rgba(156,135,99,.7)";g.lineWidth=2;g.beginPath();g.moveTo(240,by);g.lineTo(500,by);g.moveTo(580,by);g.lineTo(840,by);g.stroke();star(g,W/2,by,10);
+  const by=1680;
+  try{const lg=await loadImg("logo-df.png");const L=120;
+    g.save();g.beginPath();g.arc(W/2,by,L/2+5,0,Math.PI*2);g.fillStyle="#9c8763";g.fill();g.restore();
+    g.drawImage(lg,W/2-L/2,by-L/2,L,L);
+    g.strokeStyle="rgba(156,135,99,.6)";g.lineWidth=2;g.beginPath();g.moveTo(200,by);g.lineTo(W/2-L/2-30,by);g.moveTo(W/2+L/2+30,by);g.lineTo(880,by);g.stroke();
+  }catch(e){star(g,W/2,by,10);}
   g.fillStyle=metal;g.font='600 52px Montserrat';g.fillText("@"+INSTAGRAM,W/2,by+90);
   g.fillStyle="#948e88";g.font='500 28px Montserrat';spaced(g,"SÁBADO 28 DE NOVIEMBRE",W/2,by+150,6);
   return new Promise(ok=>c.toBlob(b=>ok(b),"image/png"));
